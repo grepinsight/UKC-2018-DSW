@@ -1,0 +1,84 @@
+---
+title: "99-basics-of-R"
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+---
+
+# Assignments
+
+```{r}
+a <- 3
+b <- 5
+print(a + b)
+```
+
+```{r}
+x <- "hi"
+print(x)
+```
+
+# Basic Data Structures
+
+1. `vector`
+  - `matrix`
+2. `list`
+3. `data.frame`
+
+
+## Vector
+
+```{r}
+my_data <- c(1,2,3,4,5)
+print(my_data)
+```
+
+
+# Data Types
+
+1. integer
+2. double
+3. factor
+4. character
+5. logical
+
+## integer
+
+```{r}
+my_int <- c(1L, 2L)
+str(my_int)
+```
+```{r}
+is.integer(my_int)
+```
+```{r}
+class(my_int)
+```
+```{r}
+is.character(my_int)
+```
+
+
+
+# Useful Functions
+
+1. `length(object)`: number of elements or components
+1. `str(object)`  : structure of an object
+1. `class(object)`: class or type of an object
+1. `names(object)`: names
+
+
+# Operators
+
+```{r}
+3 / 4
+3 ** 2
+```
+
+# Boolean Logic
+
+```
+TRUE & FALSE
+FALSE | TRUE
+```
