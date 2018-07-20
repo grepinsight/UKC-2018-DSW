@@ -1,0 +1,127 @@
+```{r}
+library(caret)
+library(tidyverse)
+```
+
+What is caret?
+==============
+
+It stands for 
+__C__lassification __A__nd __RE__gression __T__raining
+
+It's a machine learning framework that "streamline[s] the model training process for complex regression and classification problems".
+
+```{r}
+help(package = "caret")
+```
+
+```{r}
+iris %>% 
+  as_tibble()
+```
+
+to see more docs
+
+Training/Test Split
+===================
+
+```{r}
+set.seed(123)
+idx_train <- caret::createDataPartition(
+  y = iris$Species,
+  p = .75, 
+  list = FALSE
+)
+```
+
+```{r}
+str(idx_train)
+class(idx_train)
+```
+
+returns a matrix object with a set of indices to be used in training samples
+
+```{r}
+idx_train %>%
+  head()
+```
+
+```{r}
+data_all <- iris
+data_training <- data_all[idx_train, ]
+data_test <- data_all[-idx_train, ]
+```
+```{r}
+dim(data_all)
+dim(data_training)
+dim(data_test)
+```
+
+```{r}
+model <- train(
+  Species ~ .,
+  data = data_training,
+  method = "pls",
+  ## Center and scale the predictors for the training
+  ## set and all future samples.
+  preProc = c("center", "scale")
+)
+
+```
+
+```{r}
+?caret::train
+```
+
+```{r}
+info_caret_models  <- caret::getModelInfo()
+```
+```{r}
+names(info_caret_models)
+```
+
+```{r}
+
+ctrl <- trainControl(
+  method = "repeatedcv", 
+  repeats = 3,
+  classProbs = TRUE
+)
+
+
+model <- train(
+  Species ~ .,
+  data = data_training,
+  method = "rf",
+  ## Center and scale the predictors for the training
+  ## set and all future samples.
+  preProc = c("center", "scale"),
+  trControl = ctrl,
+  metric="Accuracy"
+)
+```
+
+```{r}
+model
+```
+
+```{r}
+ggplot(model)
+```
+
+
+Prediction
+==========
+```{r}
+data_pred_class <- predict(model, newdata=data_test, type="raw")
+data_pred_prob <- predict(model, newdata=data_test, type="prob")
+```
+
+```{r}
+table(data_pred_class, data_test$Species)
+```
+
+```{r}
+confusionMatrix(data = data_pred_class, data_test$Species)
+```
+
