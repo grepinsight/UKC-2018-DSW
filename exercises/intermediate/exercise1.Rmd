@@ -29,6 +29,6 @@ output:
 
 # What is the data type for each column?
 ```{r}
-
+# write your answer here
 ```
 
