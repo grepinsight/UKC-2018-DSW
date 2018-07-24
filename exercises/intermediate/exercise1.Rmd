@@ -1,0 +1,34 @@
+---
+title: "Exercise 1"
+output: 
+  html_document: 
+    number_sections: yes
+    toc: yes
+---
+
+# How many rows are there in iris dataset?
+
+
+```{r}
+# write your answer here
+```
+
+# How many columns are there?
+
+```{r}
+# write your answer here
+```
+
+
+# What is the command that you can use to perform both?
+
+```{r}
+# write your answer here
+```
+
+
+# What is the data type for each column?
+```{r}
+
+```
+
