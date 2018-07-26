@@ -51,6 +51,8 @@ Machine Learning Workflow
 
 ![](assets/machine_learning_workflow.png)
 
+1. Why do we split a data into train/test datasets?
+
 What is caret?
 ==============
 
@@ -155,10 +157,6 @@ model <- caret::train(
   y = data_training$Species,
   trControl = ctrl,
   method = "rf",
-  ## Center and scale the predictors for the training
-  ## set and all future samples.
-  preProc = c("center", "scale"),
-  metric="logLoss",
   verbose=TRUE
 )
 ```
@@ -212,6 +210,24 @@ ggplot(iris, aes(x=Petal.Width, fill=Species)) +
   geom_density() + 
   theme_bw()
 ```
+
+
+More sophisticated version
+==========================
+
+```{r}
+model_v2 <- caret::train(
+  x = data_training[,1:4],
+  y = data_training$Species,
+  trControl = ctrl,
+  method = "rf",
+  ## Center and scale the predictors for the training
+  ## set and all future samples.
+  preProc = c("center", "scale"),
+  metric="logLoss"
+)
+```
+
 
 Tips
 ====
