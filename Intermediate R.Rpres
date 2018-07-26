@@ -80,15 +80,24 @@ idx_train <- caret::createDataPartition(
 )
 ```
 
+1. What does `set.seed(123)` do?
+2. Read the documentation of `caret::createDataPartition`
+3. what does `p=0.75` mean?
+4. can you `str(idx_train)` to see its structure?
+
+Training/Test Split
+===================
+
 ```{r}
 str(idx_train)
 class(idx_train)
 ```
 
 
+Training/Test Split
+===================
 ```{r}
-idx_train %>%
-  head()
+head(idx_train)
 ```
 
 Training/Test Split Cont
@@ -99,8 +108,11 @@ data_training <- data_all[idx_train, ]
 data_test <- data_all[-idx_train, ]
 ```
 
+1. what am I doing here?
+2. what does `-idx_train` mean?
+3. can you run `dim` commands on each of the dataset?
 
-```{r}
+```{r eval}
 dim(data_all)
 dim(data_training)
 dim(data_test)
@@ -108,6 +120,27 @@ dim(data_test)
 
 Model Building
 ===================
+
+```{r}
+ctrl <- trainControl(
+  method = "repeatedcv",
+  repeats = 3,
+  classProbs = TRUE
+)
+
+
+model <- train(
+  Species ~ .,
+  data = data_training,
+  method = "rf",
+  ## Center and scale the predictors for the training
+  ## set and all future samples.
+  preProc = c("center", "scale"),
+  trControl = ctrl,
+  metric="Accuracy"
+)
+```
+
 
 
 ```{r}
