@@ -46,6 +46,10 @@ iris %>%
 
 There are more than one ways to solve this problem, but we will use a particular way to do this....
 
+Machine Learning Workflow
+=========================
+
+![](assets/machine_learning_workflow.png)
 
 What is caret?
 ==============
