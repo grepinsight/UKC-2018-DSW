@@ -1,0 +1,22 @@
+---
+output: 
+  html_document: 
+    number_sections: yes
+---
+
+
+Run following
+
+```{r eval=FALSE}
+idx_train <- caret::createDataPartition(
+  y = iris$Species,
+  p = .75, 
+  list = FALSE
+)
+```
+
+
+* Q: What does the above command return?
+
+
+Check the dimension of each of train, test data set
