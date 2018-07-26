@@ -6,6 +6,13 @@ output:
     toc: yes
 ---
 
+# How do you access an iris dataset?
+
+```{r}
+# write your answer here
+```
+
+
 # How many rows are there in iris dataset?
 
 
@@ -32,3 +39,9 @@ output:
 # write your answer here
 ```
 
+
+# what happens when you run a summary command on it?
+
+```{r eval=FALSE}
+summary(iris)
+```
