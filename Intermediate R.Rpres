@@ -4,7 +4,7 @@ author: Albert Lee
 date:
 autosize: true
 
-Agenda 
+Agenda
 ========================================================
 1. Problem statement
 2. Visualization
@@ -22,7 +22,7 @@ Here is a famous `iris` dataset.
 
 ![](assets/iris-machinelearning.png)
 
-source: Fisher,R.A. "The use of multiple measurements in taxonomic problems" 
+source: Fisher,R.A. "The use of multiple measurements in taxonomic problems"
 see [here](http://archive.ics.uci.edu/ml/datasets/Iris) for more info
 
 Exercise 1
@@ -38,9 +38,9 @@ __Question: can we guess the type of species based on 4 features?__
 
 ```{r echo=FALSE}
 iris %>%
-  group_by(Species) %>% 
-  sample_n(3) %>% 
-  ungroup() %>% 
+  group_by(Species) %>%
+  sample_n(3) %>%
+  ungroup() %>%
   mutate(Species="???")
 ```
 
@@ -75,7 +75,7 @@ Training/Test Split
 set.seed(123)
 idx_train <- caret::createDataPartition(
   y = iris$Species,
-  p = .75, 
+  p = .75,
   list = FALSE
 )
 ```
@@ -125,7 +125,7 @@ names(info_caret_models)
 Need to set up train control
 ```{r}
 ctrl <- trainControl(
-  method = "repeatedcv", 
+  method = "repeatedcv",
   repeats = 3,
   classProbs = TRUE
 )
@@ -166,3 +166,9 @@ table(data_pred_class, data_test$Species)
 ```{r}
 confusionMatrix(data = data_pred_class, data_test$Species)
 ```
+
+
+Futher studies
+==============
+
+TODO
