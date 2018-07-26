@@ -1,0 +1,168 @@
+Intermediate R
+========================================================
+author: Albert Lee
+date:
+autosize: true
+
+Agenda 
+========================================================
+1. Problem statement
+2. Visualization
+3. Machine Learning with Caret
+
+```{r echo=FALSE}
+library(caret)
+library(tidyverse)
+```
+
+Motivation
+========================================================
+
+Here is a famous `iris` dataset.
+
+![](assets/iris-machinelearning.png)
+
+source: Fisher,R.A. "The use of multiple measurements in taxonomic problems" 
+see [here](http://archive.ics.uci.edu/ml/datasets/Iris) for more info
+
+Exercise 1
+==============
+
+Open ./exercises/intermediate/exercise1.Rmd and let's expore iris dataset togeother.
+
+
+Here's an interesting machine learning problem
+==============================================
+
+__Question: can we guess the type of species based on 4 features?__
+
+```{r echo=FALSE}
+iris %>%
+  group_by(Species) %>% 
+  sample_n(3) %>% 
+  ungroup() %>% 
+  mutate(Species="???")
+```
+
+There are more than one ways to solve this problem, but we will use a particular way to do this....
+
+
+What is caret?
+==============
+
+* It stands for  __C__lassification __A__nd __RE__gression __T__raining
+* Machine learning framework in R
+* Learn one workflow, leverage +100 models
+* http://caret.r-forge.r-project.org/
+
+```{r}
+# type `help(package = "caret")` for more info
+```
+
+Caret consists of 4 steps
+=========================
+
+1. Partition data into train / test data
+1. Model Selection and Parameter tuning
+1. Prediction
+1. Performance check
+
+
+Training/Test Split
+===================
+
+```{r}
+set.seed(123)
+idx_train <- caret::createDataPartition(
+  y = iris$Species,
+  p = .75, 
+  list = FALSE
+)
+```
+
+```{r}
+str(idx_train)
+class(idx_train)
+```
+
+
+```{r}
+idx_train %>%
+  head()
+```
+
+Training/Test Split Cont
+===================
+```{r}
+data_all <- iris
+data_training <- data_all[idx_train, ]
+data_test <- data_all[-idx_train, ]
+```
+
+
+```{r}
+dim(data_all)
+dim(data_training)
+dim(data_test)
+```
+
+Model Building
+===================
+
+
+```{r}
+?caret::train
+```
+
+```{r}
+info_caret_models  <- caret::getModelInfo()
+```
+
+```{r}
+names(info_caret_models)
+```
+
+Need to set up train control
+```{r}
+ctrl <- trainControl(
+  method = "repeatedcv", 
+  repeats = 3,
+  classProbs = TRUE
+)
+
+
+model <- train(
+  Species ~ .,
+  data = data_training,
+  method = "rf",
+  ## Center and scale the predictors for the training
+  ## set and all future samples.
+  preProc = c("center", "scale"),
+  trControl = ctrl,
+  metric="Accuracy"
+)
+```
+
+```{r}
+model
+```
+
+```{r}
+ggplot(model)
+```
+
+
+Prediction
+==========
+```{r}
+data_pred_class <- predict(model, newdata=data_test, type="raw")
+data_pred_prob <- predict(model, newdata=data_test, type="prob")
+```
+
+```{r}
+table(data_pred_class, data_test$Species)
+```
+
+```{r}
+confusionMatrix(data = data_pred_class, data_test$Species)
+```
