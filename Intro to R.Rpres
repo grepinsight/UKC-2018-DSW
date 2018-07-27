@@ -148,7 +148,8 @@ R Basics - Help
 Exercise 1
 ==============
 
-Open ./exercises/intro/exercise_1.Rmd and let's review some R basics.
+- Review of some basic R features
+- Open ./exercises/intro/exercise_1.Rmd
 
 
 Working with Data
@@ -254,6 +255,13 @@ Working with Data - Data Manipulation - Tips
 - When aggregating data you need an aggregate function such as mean, median, n (number of rows in a group), sum, etc.
 - If your data has missing values, you need to add the parameter ```na.rm = TRUE```, this will skip any missing values.
 - When working with data, the data manipulation process often takes more time than the analysis.
+
+Exercise 3
+==============
+
+- Review of some data manipulation functions in dplyr 
+- Open ./exercises/intro/exercise_3.Rmd
+
 
 Further Learning - Beginner/Intermediate
 ========================================================
