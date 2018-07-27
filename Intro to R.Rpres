@@ -145,6 +145,12 @@ R Basics - Help
 ??histogram
 ```
 
+Exercise 1
+==============
+
+Open ./exercises/intro/exercise_1.Rmd and let's review some R basics.
+
+
 Working with Data
 ========================================================
 
