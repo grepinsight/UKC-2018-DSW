@@ -204,6 +204,12 @@ Working with Data - Data Visualization - Scatterplot
 ```{r}
 plot(CO2$uptake, CO2$conc)
 ```
+Exercise 2
+==============
+
+- Review of datasets and data visualization
+- Open ./exercises/intro/exercise_2.Rmd
+
 Working with Data - Data Manipulation
 ========================================================
 - Dplyr is the most common package used for data exploration and transformation
