@@ -6,28 +6,28 @@ output:
     toc: yes
 ---
 
-# Use the ? help operator to understand what the sample function does.
+# Use the `?` help operator to understand what the sample function does.
 
 ```{r}
 # Write your answer here
 ?sample
 ```
 
-# Create a vector 'coeffs' of 3 coefficients for a quadratic equation, using the 'sample' function. Draw a sample of size 3 from [-10,10] with replacement.
+# Create a vector `coeffs` of 3 coefficients for a quadratic equation, using the `sample` function. Draw a sample of size 3 from [-10,10] with replacement.
 
 ```{r}
 # Write your answer here
 coeffs <-sample(-20:20, 3, replace = TRUE)
 ```
 
-# Determine the class of the vector 'coeffs'.
+# Determine the class of the vector `coeffs`.
 
 ```{r}
 # Write your answer here
 class(coeffs)
 ```
 
-# Assign the 3 values from the vector 'coeffs' to variables "a", "b", and "c", respectively.
+# Assign the 3 values from the vector `coeffs` to variables `a`, `b`, and `c`, respectively.
 
 ```{r}
 # Write your answer here
