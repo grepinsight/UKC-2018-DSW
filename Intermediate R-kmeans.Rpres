@@ -1,0 +1,70 @@
+K-means Clustering in R
+========================================================
+author: Stephen Park
+date: 
+autosize: true
+
+K-means Clustering of the Iris Dataset
+========================================================
+```{r}
+set.seed(278613)
+iris_without_class <- iris[, which(names(iris) != "Species")]
+results <- kmeans(x = iris_without_class, centers = 3)
+head(results, n=2)
+```
+
+Base Scatterplots for the Petals
+========================================================
+
+```{r, fig.height=10, fig.width=19}
+par(mfrow=c(1,2), bty="n", cex=2)
+plot(iris[c("Petal.Length", "Petal.Width")], col=results$cluster)
+plot(iris[c("Petal.Length", "Petal.Width")], col=iris$Species)
+```
+
+
+Base Scatterplots for the Sepals
+========================================================
+
+```{r, fig.height=10, fig.width=19}
+par(mfrow=c(1,2), bty="n", cex=2)
+plot(iris[c("Sepal.Length", "Sepal.Width")], col=results$cluster)
+plot(iris[c("Sepal.Length", "Sepal.Width")], col=iris$Species)
+```
+
+Analyzing the Clustering Results
+========================================================
+
+```{r}
+table(iris$Species, results$cluster)
+```
+
+1. Which Iris plant is linearly separable from the other?
+
+3. Does the results of the K-means clustering show “the data set contains 3 classes of 50 instances each, where each class refers to a type of iris plant”?
+
+Fit Assessment of K-means Clustering
+========================================================
+
+```{r}
+plot(table(iris$Species, results$cluster), main="Confustion Matrix for Iris Clustering", "xlab=Cultivar", ylab="Cluster")
+```
+
+Choosing the Right Number of Clusters: Hartigan's Rule
+========================================================
+```{r, fig.height=5, fig.width=10}
+require(useful)
+irisBest <- FitKMeans(iris_without_class, max.clusters=20, nstart=25)
+PlotHartigan(irisBest)
+```
+
+Another Method: the Gap Statistic
+========================================================
+```{r, fig.height=5, fig.width=10}
+require(cluster)
+theGap <- clusGap(iris_without_class, FUNcluster=pam, K.max=20)
+gapDF <- as.data.frame(theGap$Tab)
+ggplot(gapDF, aes(x=1:nrow(gapDF))) + geom_line(aes(y=gap))
+```
+
+
