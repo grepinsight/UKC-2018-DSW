@@ -1,7 +1,7 @@
 Intermediate R
 ========================================================
-author: Albert Lee
-date:
+author: Albert Lee, Stephen Park
+date: August 3-4, 2018
 autosize: true
 
 Agenda
@@ -9,21 +9,23 @@ Agenda
 1. Problem statement
 2. Visualization
 3. Machine Learning with Caret
+4. K-means Clustering in R
 
 ```{r echo=FALSE}
 library(caret)
 library(tidyverse)
+library(useful)
+library(cluster)
 ```
 
 Motivation
 ========================================================
 
-Here is a famous `iris` dataset.
+Here is the famous `iris` dataset.
 
 ![](assets/iris-machinelearning.png)
 
-source: Fisher,R.A. "The use of multiple measurements in taxonomic problems"
-see [here](http://archive.ics.uci.edu/ml/datasets/Iris) for more info
+source: Fisher,R.A. "The use of multiple measurements in taxonomic problems" (see [here](http://archive.ics.uci.edu/ml/datasets/Iris) for more info)
 
 Exercise 1
 ==============
@@ -49,9 +51,16 @@ There are more than one ways to solve this problem, but we will use a particular
 Machine Learning Workflow
 =========================
 
+
 ![](assets/machine_learning_workflow.png)
 
 1. Why do we split a data into train/test datasets?
+
+Supervised vs. Unsupervised Learning
+=======================================
+```{r echo=FALSE, out.width = "1400px"}
+knitr::include_graphics("assets/Supervised-Unsupervised.jpg")
+```
 
 What is caret?
 ==============
@@ -251,7 +260,72 @@ model_linear <- caret::train(x = data_training[,1:3],
 caret::RMSE(predict(model_linear, newdata=data_test), data_test$Petal.Width)
 ```
 
+Unsupervised Machine Learning: Clustering
+=========================================
+```{r echo=FALSE, out.width = "1400px"}
+knitr::include_graphics("assets/kmeans.jpg")
+```
 
+K-means Clustering of the Iris Data
+========================================================
+```{r}
+set.seed(278613)
+iris_without_class <- iris[, which(names(iris) != "Species")]
+results <- kmeans(x = iris_without_class, centers = 3)
+head(results, n=2)
+```
+
+Base Scatterplots for the Petals
+========================================================
+
+```{r, fig.height=10, fig.width=19}
+par(mfrow=c(1,2), bty="n", cex=2)
+plot(iris[c("Petal.Length", "Petal.Width")], col=results$cluster)
+plot(iris[c("Petal.Length", "Petal.Width")], col=iris$Species)
+```
+
+
+Base Scatterplots for the Sepals
+========================================================
+
+```{r, fig.height=10, fig.width=19}
+par(mfrow=c(1,2), bty="n", cex=2)
+plot(iris[c("Sepal.Length", "Sepal.Width")], col=results$cluster)
+plot(iris[c("Sepal.Length", "Sepal.Width")], col=iris$Species)
+```
+
+Analyzing the Clustering Results
+========================================================
+
+```{r}
+table(iris$Species, results$cluster)
+```
+
+1. Which Iris plant is linearly separable from the other?
+
+3. Does the results of the K-means clustering show “the data set contains 3 classes of 50 instances each, where each class refers to a type of iris plant”?
+
+Fit Assessment of K-means Clustering
+========================================================
+
+```{r}
+plot(table(iris$Species, results$cluster), main="Confustion Matrix for Iris Clustering", "xlab=Cultivar", ylab="Cluster")
+```
+
+Choosing the Right Number of Clusters: Hartigan's Rule
+========================================================
+```{r, fig.height=5, fig.width=10}
+irisBest <- FitKMeans(iris_without_class, max.clusters=20, nstart=25)
+PlotHartigan(irisBest)
+```
+
+Another Method: the Gap Statistic
+========================================================
+```{r, fig.height=5, fig.width=10}
+theGap <- clusGap(iris_without_class, FUNcluster=pam, K.max=20)
+gapDF <- as.data.frame(theGap$Tab)
+ggplot(gapDF, aes(x=1:nrow(gapDF))) + geom_line(aes(y=gap))
+```
 
 Futher studies
 ==============
