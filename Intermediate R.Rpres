@@ -6,7 +6,7 @@ autosize: true
 
 Agenda
 ========================================================
-1. Problem statement
+1. Problem Statement
 2. Visualization
 3. Machine Learning with Caret
 4. K-means Clustering in R
@@ -32,6 +32,64 @@ Exercise 1
 
 Open ./exercises/intermediate/exercise1.Rmd and let's expore iris dataset togeother.
 
+Visualization with ggplot2
+===========================
+
+- Works with dataframes and not individual vectors
+
+- Consistent underlying `grammar of graphics`
+
+- Can continuously add layers (and themes) to an existing plot
+
+ggplot2 - (1) The Setup
+===========================
+
+```{r}
+ggplot(iris)  # if only the dataset is known.
+ggplot(iris, aes(x=Sepal.Width))  # if only X-axis is known. The Y-axis can be specified in respective geoms.
+ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length))  # if both X and Y axes are fixed for all layers.
+ggplot(iris, aes(x=Sepal.Width, color=Species))  # Each category of the 'Species' variable will now have a distinct  color, once a geom is added.
+```
+
+ggplot2 - (2) The Layers
+===========================
+
+```{r}
+ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) + geom_point() + geom_smooth() # Adding scatterplot geom (layer1) and smoothing geom (layer2).
+
+ggplot(iris) + geom_point(aes(x=Sepal.Width, y=Sepal.Length, shape=Species)) + geom_smooth(aes(x=Sepal.Width, y=Sepal.Length, color=Species)) # Same as above but specifying the aesthetics inside the geoms.
+```
+
+ggplot2 - (3) The Labels
+===========================
+
+```{r}
+gg <- ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) + geom_point() + labs(title="Scatterplot", x="Sepal Width", y="Sepal Length")  # add axis lables and plot title.
+print(gg)
+```
+
+ggplot2 - (4) The Facets
+===========================
+
+```{r}
+gg + facet_wrap( ~ Species, ncol=3)  # columns defined by 'Species'
+print(gg)
+```
+
+Numerous Possibilites in ggplot2...
+===================================
+
+```{r}
+ggplot(mtcars, aes(x=cyl)) + geom_bar(fill='darkgoldenrod2') +
+  theme(panel.background = element_rect(fill = 'steelblue'),
+  panel.grid.major = element_line(colour = "firebrick", size=3),
+  panel.grid.minor = element_line(colour = "blue", size=1))
+```
+
+ggplot2 Documentation
+===================================
+
+![](assets/ggplot2-cheatsheet.png)
 
 Here's an interesting machine learning problem
 ==============================================
