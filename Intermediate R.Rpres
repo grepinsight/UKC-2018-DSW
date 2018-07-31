@@ -4,6 +4,13 @@ author: Albert Lee, Stephen Park
 date: August 3-4, 2018
 autosize: true
 
+
+<style>
+.small-code pre code {
+  font-size: 1em;
+}
+</style>
+
 Agenda
 ========================================================
 1. Problem Statement
@@ -16,6 +23,7 @@ library(caret)
 library(tidyverse)
 library(useful)
 library(cluster)
+knitr::opts_chunk$set(echo = TRUE, fig.align="center") # center the figure
 ```
 
 Motivation
@@ -41,58 +49,101 @@ Visualization with ggplot2
 
 - Can continuously add layers (and themes) to an existing plot
 
-ggplot2 - (1) The Setup
+ggplot2 - (1) The Basics
+===========================
+
+* Try running this 
+
+```{r}
+ggplot(data=iris) 
+```
+
+Q: Why is nothing shown?
+
+ggplot2 - (1) The Basics
 ===========================
 
 ```{r}
-ggplot(iris)  # if only the dataset is known.
-ggplot(iris, aes(x=Sepal.Width))  # if only X-axis is known. The Y-axis can be specified in respective geoms.
-ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length))  # if both X and Y axes are fixed for all layers.
-ggplot(iris, aes(x=Sepal.Width, color=Species))  # Each category of the 'Species' variable will now have a distinct  color, once a geom is added.
+ggplot(data=iris, mapping=aes(x=Sepal.Width))  
+```
+
+* if only X-axis is known. The Y-axis can be specified as well.
+
+ggplot2 - (1) The Basics
+===========================
+
+```{r}
+ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length))
+```
+
+* if both X and Y axes are fixed for all layers.
+
+```{r}
+ggplot(data=iris, aes(x=Sepal.Width, color=Species))  
+# Each category of the 'Species' variable will now have a distinct  color, once a geom is added.
 ```
 
 ggplot2 - (2) The Layers
 ===========================
+class: small-code
 
-```{r}
-ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) + geom_point() + geom_smooth() # Adding scatterplot geom (layer1) and smoothing geom (layer2).
+```{r }
+ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) + 
+  geom_point() + 
+  geom_smooth() # Adding scatterplot geom (layer1) and smoothing geom (layer2).
 
-ggplot(iris) + geom_point(aes(x=Sepal.Width, y=Sepal.Length, shape=Species)) + geom_smooth(aes(x=Sepal.Width, y=Sepal.Length, color=Species)) # Same as above but specifying the aesthetics inside the geoms.
+ggplot(iris) + 
+  geom_point(aes(x=Sepal.Width, y=Sepal.Length, shape=Species)) + 
+  geom_smooth(aes(x=Sepal.Width, y=Sepal.Length, color=Species)) # Same as above but specifying the aesthetics inside the geoms.
 ```
 
 ggplot2 - (3) The Labels
 ===========================
+class: small-code
 
 ```{r}
-gg <- ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) + geom_point() + labs(title="Scatterplot", x="Sepal Width", y="Sepal Length")  # add axis lables and plot title.
-print(gg)
+gg <- ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) + 
+  geom_point() + 
+  labs(title="Scatterplot", x="Sepal Width", y="Sepal Length")  # add axis lables and plot title.
+gg
 ```
 
 ggplot2 - (4) The Facets
 ===========================
+class: small-code
 
 ```{r}
-gg + facet_wrap( ~ Species, ncol=3)  # columns defined by 'Species'
-print(gg)
+gg + 
+  facet_wrap( ~ Species, ncol=3)  # columns defined by 'Species'
 ```
 
 Numerous Possibilites in ggplot2...
 ===================================
+class: small-code
 
 ```{r}
 ggplot(mtcars, aes(x=cyl)) + geom_bar(fill='darkgoldenrod2') +
-  theme(panel.background = element_rect(fill = 'steelblue'),
-  panel.grid.major = element_line(colour = "firebrick", size=3),
-  panel.grid.minor = element_line(colour = "blue", size=1))
+  theme(panel.background = element_rect(fill = 'steelblue')) + 
+  theme(panel.grid.major = element_line(colour = "firebrick", size=3)) + 
+  theme(panel.grid.minor = element_line(colour = "blue", size=1))
 ```
 
 ggplot2 Documentation
 ===================================
 
-![](assets/ggplot2-cheatsheet.png)
+[Link](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
+
+```{r fig.width=10, fig.height=8,echo=FALSE}
+library(png)
+library(grid)
+img <- readPNG("assets/ggplot2-cheatsheet.png")
+grid.raster(img)
+
+```
 
 Here's an interesting machine learning problem
 ==============================================
+class:small-code
 
 __Question: can we guess the type of species based on 4 features?__
 
