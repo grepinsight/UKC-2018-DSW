@@ -69,7 +69,7 @@ ggplot(data=iris, mapping=aes(x=Sepal.Width))
 
 * if only X-axis is known. The Y-axis can be specified as well.
 
-ggplot2 - (1) The Basics
+ggplot2 - (1) Basics
 ===========================
 
 ```{r}
@@ -78,12 +78,14 @@ ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length))
 
 * if both X and Y axes are fixed for all layers.
 
+ggplot2 - (1) Basics
+===========================
 ```{r}
 ggplot(data=iris, aes(x=Sepal.Width, color=Species))  
 # Each category of the 'Species' variable will now have a distinct  color, once a geom is added.
 ```
 
-ggplot2 - (2) The Layers
+ggplot2 - (2) Layers
 ===========================
 class: small-code
 
@@ -91,13 +93,18 @@ class: small-code
 ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) + 
   geom_point() + 
   geom_smooth() # Adding scatterplot geom (layer1) and smoothing geom (layer2).
+```
 
+ggplot2 - (2) Layers
+===========================
+class: small-code
+```{r}
 ggplot(iris) + 
   geom_point(aes(x=Sepal.Width, y=Sepal.Length, shape=Species)) + 
   geom_smooth(aes(x=Sepal.Width, y=Sepal.Length, color=Species)) # Same as above but specifying the aesthetics inside the geoms.
 ```
 
-ggplot2 - (3) The Labels
+ggplot2 - (3)  Labels
 ===========================
 class: small-code
 
