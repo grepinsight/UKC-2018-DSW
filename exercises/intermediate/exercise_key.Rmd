@@ -59,7 +59,7 @@ summary(iris)
 ```
 
 
-# Exercise 2 - Exploratory Data Analysis, Visualization
+# Exercise 2 - Exploratory Data Analysis, Visualization (P-002)
 
 ## Import ggplot2
 
@@ -81,7 +81,6 @@ ggplot(iris, aes(x=Sepal.Length)) +
 ```
 
 * What is the overall shape?
-* What is the max value of Sepal.Length?
 * How many peaks are there?
 
 
@@ -91,6 +90,17 @@ ggplot(iris, aes(x=Sepal.Length)) +
 ggplot(iris, aes(x=Sepal.Width)) +
   geom_histogram()
 ```
+
+## Plot the boxplots of Sepal.Length by Species
+
+```{r}
+ggplot(iris, aes(x=Species, y=Sepal.Length)) +
+  geom_boxplot()
+```
+
+
+
+
 
 # Exercise 3
 

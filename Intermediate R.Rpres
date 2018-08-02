@@ -3,6 +3,8 @@ Intermediate R
 author: Albert Lee, Stephen Park
 date: August 3-4, 2018
 autosize: true
+transition: none
+incremental: true
 
 
 <style>
@@ -28,6 +30,11 @@ knitr::opts_chunk$set(echo = TRUE, fig.align="center") # center the figure
 
 ```
 
+R Markdown Notebook
+===================================
+type: section
+
+
 R-markdown Notebook
 ========================================================
 
@@ -41,6 +48,11 @@ R-markdown Notebook
 > Open ./exercises/intermediate/exercise.Rmd
 
 
+Iris Dataset
+===================================
+type: section
+
+
 Motivation
 ========================================================
 
@@ -50,60 +62,67 @@ Motivation
 
 ![](assets/iris-machinelearning.png)
 
-
+<small>
 source: Fisher,R.A. "The use of multiple measurements in taxonomic problems" (see [here](http://archive.ics.uci.edu/ml/datasets/Iris) for more info)
+</small>
+
+Visualization
+===================================
+type: section
 
 
 Visualization with ggplot2
 ===========================
 
 - Good exploratory analysis lends itself to visualization
-- `ggplot2` is a superior tool for that job
+- `ggplot2` is THE package for the job
+- with `ggplot`, you can make complex plots with just a few lines of code
+- based on the theory __g__rammar of __g__raphics, hence the short name `gg`plot.
 
 Visualization with ggplot2
 ===========================
 
-- Works with data frames and not individual vectors
+Every ggplot has three parts
 
-- Consistent underlying `grammar of graphics`
+1. __data__ (usually in the form of `data.frame`)
+2. __aesthetic mapping__ between variables in the data and the visual properties
+	* examples include `x`, `y`, `color`, `share`, `group`, `size`, etc.
+3. __layer__ rendered by one of geom_* functions
 
-- Can continuously add layers (and themes) to an existing plot
-
-ggplot2 - (1) The Basics
-===========================
-
-* Try running this
-
-```{r}
-ggplot(data=iris)
-```
-
-Q: Why is nothing shown?
 
 ggplot2 - (1) The Basics
 ===========================
 
-```{r}
-ggplot(data=iris, mapping=aes(x=Sepal.Width))
-```
+![](assets/slide1.png)
 
-* if only X-axis is known. The Y-axis can be specified as well.
-
-ggplot2 - (1) Basics
+ggplot2 - (1) The Basics
 ===========================
 
-```{r}
-ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length))
-```
+![](assets/slide2.png)
 
-* if both X and Y axes are fixed for all layers.
-
-ggplot2 - (1) Basics
+ggplot2 - (1) The Basics
 ===========================
-```{r}
-ggplot(data=iris, aes(x=Sepal.Width, color=Species))
-# Each category of the 'Species' variable will now have a distinct  color, once a geom is added.
-```
+
+![](assets/slide3.png)
+
+ggplot2 - (1) The Basics
+===========================
+
+![](assets/slide4.png)
+
+
+Examples of Geoms
+===========================
+
+* __geom_point()__ produces a scatterplot.
+* __geom_smooth()__ fits a smoother to the data and displays the smooth and its
+standard error.
+* __geom boxplot()__ produces a box-and-whisker plot to summarise the distribution
+of a set of points.
+* __geom histogram()__ and geom freqpoly() show the distribution of continuous
+variables.
+• __geom_col()__ shows the distribution of categorical variables.
+• __geom_line()__ draw lines between the data points.
 
 ggplot2 - (2) Layers
 ===========================
@@ -139,10 +158,14 @@ ggplot2 - (4) The Facets
 ===========================
 class: small-code
 
+There is a technique called `faceting` to display additional categorical variables:
+
 ```{r}
 gg +
   facet_wrap( ~ Species, ncol=3)  # columns defined by 'Species'
 ```
+
+Note that the name of variable is preceded by `~`.
 
 Numerous Possibilites in ggplot2...
 ===================================
@@ -168,7 +191,23 @@ grid.raster(img)
 
 ```
 
-Here's an interesting machine learning problem
+Visualization Exercise
+===================================
+
+* Go to the section `Exercise 2(P-002)` on the notebook and do the problems
+
+
+Machine Learning
+===================================
+type: section
+
+Supervised vs. Unsupervised Learning
+=======================================
+```{r echo=FALSE, out.width = "1400px"}
+knitr::include_graphics("assets/Supervised-Unsupervised.jpg")
+```
+
+Classification Problem
 ==============================================
 class:small-code
 
@@ -192,11 +231,6 @@ Machine Learning Workflow
 
 1. Why do we split a data into train/test datasets?
 
-Supervised vs. Unsupervised Learning
-=======================================
-```{r echo=FALSE, out.width = "1400px"}
-knitr::include_graphics("assets/Supervised-Unsupervised.jpg")
-```
 
 What is caret?
 ==============
@@ -468,3 +502,4 @@ Futher studies
 
 1. [Caret Documentation](https://topepo.github.io/caret/index.html)
 2. [R for Data Science](http://r4ds.had.co.nz/)
+3. ggplot2 - Elegant Graphics for Data Analysis by Hadley Wickham
