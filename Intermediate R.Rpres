@@ -13,8 +13,9 @@ autosize: true
 
 Agenda
 ========================================================
+0. Rmarkdown introduction
 1. Problem Statement
-2. Visualization
+2. Exploratory Analysis
 3. Machine Learning with Caret
 4. K-means Clustering in R
 
@@ -24,26 +25,45 @@ library(tidyverse)
 library(useful)
 library(cluster)
 knitr::opts_chunk$set(echo = TRUE, fig.align="center") # center the figure
+
 ```
+
+R-markdown Notebook
+========================================================
+
+* R markdown notebook is a literate programming environment for R.
+* It's nice because you can
+	* keep all your outputs in one place
+	* make your analysis reproducible
+	* compile into other formats such as `html` or `pdf`
+* We will do all the exercises in R markdown notebook
+
+> Open ./exercises/intermediate/exercise.Rmd
+
 
 Motivation
 ========================================================
 
-Here is the famous `iris` dataset.
+* `iris` is a famous dataset put together by the father of statistics, RA Fisher.
+* We will use this dataset to practice data analysis
+* Go to Exercise 1 P-001
 
 ![](assets/iris-machinelearning.png)
 
+
 source: Fisher,R.A. "The use of multiple measurements in taxonomic problems" (see [here](http://archive.ics.uci.edu/ml/datasets/Iris) for more info)
 
-Exercise 1
-==============
-
-Open ./exercises/intermediate/exercise1.Rmd and let's expore iris dataset togeother.
 
 Visualization with ggplot2
 ===========================
 
-- Works with dataframes and not individual vectors
+- Good exploratory analysis lends itself to visualization
+- `ggplot2` is a superior tool for that job
+
+Visualization with ggplot2
+===========================
+
+- Works with data frames and not individual vectors
 
 - Consistent underlying `grammar of graphics`
 
@@ -52,10 +72,10 @@ Visualization with ggplot2
 ggplot2 - (1) The Basics
 ===========================
 
-* Try running this 
+* Try running this
 
 ```{r}
-ggplot(data=iris) 
+ggplot(data=iris)
 ```
 
 Q: Why is nothing shown?
@@ -64,7 +84,7 @@ ggplot2 - (1) The Basics
 ===========================
 
 ```{r}
-ggplot(data=iris, mapping=aes(x=Sepal.Width))  
+ggplot(data=iris, mapping=aes(x=Sepal.Width))
 ```
 
 * if only X-axis is known. The Y-axis can be specified as well.
@@ -81,7 +101,7 @@ ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length))
 ggplot2 - (1) Basics
 ===========================
 ```{r}
-ggplot(data=iris, aes(x=Sepal.Width, color=Species))  
+ggplot(data=iris, aes(x=Sepal.Width, color=Species))
 # Each category of the 'Species' variable will now have a distinct  color, once a geom is added.
 ```
 
@@ -90,8 +110,8 @@ ggplot2 - (2) Layers
 class: small-code
 
 ```{r }
-ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) + 
-  geom_point() + 
+ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) +
+  geom_point() +
   geom_smooth() # Adding scatterplot geom (layer1) and smoothing geom (layer2).
 ```
 
@@ -99,8 +119,8 @@ ggplot2 - (2) Layers
 ===========================
 class: small-code
 ```{r}
-ggplot(iris) + 
-  geom_point(aes(x=Sepal.Width, y=Sepal.Length, shape=Species)) + 
+ggplot(iris) +
+  geom_point(aes(x=Sepal.Width, y=Sepal.Length, shape=Species)) +
   geom_smooth(aes(x=Sepal.Width, y=Sepal.Length, color=Species)) # Same as above but specifying the aesthetics inside the geoms.
 ```
 
@@ -109,8 +129,8 @@ ggplot2 - (3)  Labels
 class: small-code
 
 ```{r}
-gg <- ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) + 
-  geom_point() + 
+gg <- ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) +
+  geom_point() +
   labs(title="Scatterplot", x="Sepal Width", y="Sepal Length")  # add axis lables and plot title.
 gg
 ```
@@ -120,7 +140,7 @@ ggplot2 - (4) The Facets
 class: small-code
 
 ```{r}
-gg + 
+gg +
   facet_wrap( ~ Species, ncol=3)  # columns defined by 'Species'
 ```
 
@@ -130,8 +150,8 @@ class: small-code
 
 ```{r}
 ggplot(mtcars, aes(x=cyl)) + geom_bar(fill='darkgoldenrod2') +
-  theme(panel.background = element_rect(fill = 'steelblue')) + 
-  theme(panel.grid.major = element_line(colour = "firebrick", size=3)) + 
+  theme(panel.background = element_rect(fill = 'steelblue')) +
+  theme(panel.grid.major = element_line(colour = "firebrick", size=3)) +
   theme(panel.grid.minor = element_line(colour = "blue", size=1))
 ```
 
@@ -331,8 +351,8 @@ Variable Importance
 ====================
 
 ```{r}
-ggplot(iris, aes(x=Petal.Width, fill=Species)) + 
-  geom_density() + 
+ggplot(iris, aes(x=Petal.Width, fill=Species)) +
+  geom_density() +
   theme_bw()
 ```
 
@@ -368,9 +388,9 @@ Regression
 ===========
 ```{r}
 ctrl <- caret::trainControl(method="cv", number = 10)
-model_linear <- caret::train(x = data_training[,1:3], 
-             y = data_training$Petal.Width, 
-             method = "lm", 
+model_linear <- caret::train(x = data_training[,1:3],
+             y = data_training$Petal.Width,
+             method = "lm",
              trControl = ctrl,
              metric="RMSE")
 caret::RMSE(predict(model_linear, newdata=data_test), data_test$Petal.Width)

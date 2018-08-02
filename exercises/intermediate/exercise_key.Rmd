@@ -1,0 +1,112 @@
+---
+title: "Exercises for Intermediate R"
+output:
+  html_notebook:
+    number_sections: yes
+    toc: yes
+---
+
+# Exercise 1 (P-001)
+
+## How do you access an iris dataset?
+
+```{r}
+iris
+# or
+print(iris)
+```
+## How do can you get the meta information of this dataset? hint: use `?` command
+
+```{r}
+?iris
+```
+
+### How many species are there and what are there?
+
+__Answer__:
+<!-- write your answer below -->
+three species: Iris setosa, versicolor, and virginica
+
+
+## How many rows are there in iris dataset?
+
+```{r}
+nrow(iris)
+```
+
+## How many columns are there?
+
+```{r}
+ncol(iris)
+```
+
+## What is the command that you can use to perform both?
+
+```{r}
+dim(iris)
+```
+
+## What is the data type for each column?
+
+```{r}
+str(iris)
+```
+
+## what happens when you run a summary command on it?
+
+```{r eval=FALSE}
+summary(iris)
+```
+
+
+# Exercise 2 - Exploratory Data Analysis, Visualization
+
+## Import ggplot2
+
+```{r}
+library(ggplot2)
+```
+
+## What do you see when you run this?
+
+```{r eval=FALSE}
+ggplot(iris)
+```
+
+## Plot the histogram of Sepal.Length
+
+```{r}
+ggplot(iris, aes(x=Sepal.Length)) +
+  geom_histogram()
+```
+
+* What is the overall shape?
+* What is the max value of Sepal.Length?
+* How many peaks are there?
+
+
+## Plot the histogram of Sepal.Width
+
+```{r}
+ggplot(iris, aes(x=Sepal.Width)) +
+  geom_histogram()
+```
+
+# Exercise 3
+
+
+Run following
+
+```{r eval=FALSE}
+idx_train <- caret::createDataPartition(
+  y = iris$Species,
+  p = .75,
+  list = FALSE
+)
+```
+
+
+* Q: What does the above command return?
+
+
+Check the dimension of each of train, test data set

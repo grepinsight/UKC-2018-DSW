@@ -1,0 +1,7 @@
+---
+title: "Exercise 1"
+output:
+  html_notebook:
+    number_sections: yes
+    toc: yes
+---
