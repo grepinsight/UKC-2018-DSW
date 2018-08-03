@@ -27,7 +27,6 @@ library(tidyverse)
 library(useful)
 library(cluster)
 knitr::opts_chunk$set(echo = TRUE, fig.align="center") # center the figure
-
 ```
 
 R Markdown Notebook
@@ -93,22 +92,22 @@ Every ggplot has three parts
 ggplot2 - (1) The Basics
 ===========================
 
-![](assets/slide1.png)
+![](assets/ggplot_slide1.png)
 
 ggplot2 - (1) The Basics
 ===========================
 
-![](assets/slide2.png)
+![](assets/ggplot_slide2.png)
 
 ggplot2 - (1) The Basics
 ===========================
 
-![](assets/slide3.png)
+![](assets/ggplot_slide3.png)
 
 ggplot2 - (1) The Basics
 ===========================
 
-![](assets/slide4.png)
+![](assets/ggplot_slide4.png)
 
 
 Examples of Geoms
@@ -303,61 +302,102 @@ dim(data_training)
 dim(data_test)
 ```
 
-Model Building
-===================
+Model Building - Choosing a model
+=================================
+incremental: false
 
-1. will build a train control
+* There are many off-the-shelf classification models
+	1. random forest
+	2. K-nearest neighbor
+	3. logistic regression
+	4. and more
 
 
-```{r}
-# build train control
-ctrl <- caret::trainControl(
-  method = "cv",
-  number = 10,
-  classProbs = TRUE,
-  summaryFunction = caret::mnLogLoss
-)
-```
+Model Building - Choosing a model
+=================================
+incremental: false
 
-1. type `ctrl` on your console. What is the data structure?
+
+* Each model has one or more tuning parameters!
+
+
+|label                     |model   |params                                                                        |
+|:-------------------------|:-------|:-----------------------------------------------------------------------------|
+|Random Forest             |rf      |mtry                                                                          |
+|k-Nearest Neighbors       |knn     |k                                                                             |
+|glmnet                    |glmnet  |alpha, lambda                                                                 |
+|eXtreme Gradient Boosting |xgbTree |nrounds, max_depth, eta, gamma, colsample_bytree, min_child_weight, subsample |
+
+* We will use random forest for this session
+
+Model Building - Random Forest, quickstart
+=================================
+class: small-code
 
 ```{r eval=FALSE}
-ctrl
-str(ctrl)
-class(ctrl)
+# train model
+model_rf <- caret::train(Species ~ . ,
+                         data=data_training,
+                         method='rf',
+                         trControl=trainControl(method="none"),
+                         tuneGrid=data.frame(mtry=2)
+                         )
+# predict
+data_pred <- predict(model_rf, newdata=data_test)
+
+# performance check
+caret::confusionMatrix(data_pred, data_test$Species)
 ```
 
-Model Building
+Model Building - Random Forest, problem
+=================================
+
+* For `rf`, `mtry` is number of variables randomly sampled as candidates at each split
+* previously, we just choose an arbitrary one, namely 2.
+* But this approach is problematic because we might not have chosen the best `mtry`.
+
+Model Building - Cross Validation
 ===================
 
+* Cross-validation is a procedure in which we use different subsets of the data to get multiple measures of model quality.
+* We use CV to tune hyperparameters such as `mtry`
+* `caret`'s got a function for that!
+
+![](assets/cross_validation.png)
+
+Model Building - Cross Validation in caret
+===================
+
+
 ```{r}
-model <- caret::train(
+ctrl <- caret::trainControl(
+  method = "cv",
+  number = 5,
+)
+
+model_rf2 <- caret::train(
   x = data_training[,1:4],
   y = data_training$Species,
   trControl = ctrl,
+  tuneGrid=data.frame(mtry=c(1,2,3,4)),
   method = "rf",
-  verbose=TRUE
 )
 ```
 
 
-1. what is `rf`?
-2. what is `preProc`?
-3. what is `metric`?
-
 Model Building
 ===================
+incremental: false
 
 ```{r}
-ggplot(model)
+ggplot(model_rf2)
 ```
 
 
 Prediction
 ==========
 ```{r}
-data_pred_class <- predict(model, newdata=data_test, type="raw")
-data_pred_prob <- predict(model, newdata=data_test, type="prob")
+data_pred_class <- predict(model_rf2, newdata=data_test)
 ```
 
 Prediction
@@ -374,8 +414,8 @@ confusionMatrix(data = data_pred_class, data_test$Species)
 Variable Importance
 ====================
 
-```{r eval=FALSE}
-caret::varImp(model)
+```{r eval=TRUE}
+caret::varImp(model_rf2)
 ```
 
 1. What variables are important?
@@ -387,8 +427,14 @@ Variable Importance
 ```{r}
 ggplot(iris, aes(x=Petal.Width, fill=Species)) +
   geom_density() +
-  theme_bw()
+  theme_bw() +
+  labs(title="Petal Width Distribution by Species")
 ```
+
+Excercise
+==========================
+
+Do this
 
 
 More sophisticated version
@@ -413,14 +459,13 @@ Tips
 
 ```{r}
 info_caret_models  <- caret::getModelInfo()
-names(info_caret_models)
-info_caret_models$rf$parameters
+head(names(info_caret_models))
 ```
 
 
-Regression
+You can do Regression with caret as well
 ===========
-```{r}
+```{r }
 ctrl <- caret::trainControl(method="cv", number = 10)
 model_linear <- caret::train(x = data_training[,1:3],
              y = data_training$Petal.Width,
@@ -429,6 +474,10 @@ model_linear <- caret::train(x = data_training[,1:3],
              metric="RMSE")
 caret::RMSE(predict(model_linear, newdata=data_test), data_test$Petal.Width)
 ```
+
+Unsupervised Machine Learning: Clustering
+===================================
+type: section
 
 Unsupervised Machine Learning: Clustering
 =========================================

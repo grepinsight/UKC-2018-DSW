@@ -84,11 +84,12 @@ ggplot(iris, aes(x=Sepal.Length)) +
 * How many peaks are there?
 
 
-## Plot the histogram of Sepal.Width
+## Plot the histogram of Sepal.Length facetted by Species. Also fill the color by Species
 
 ```{r}
-ggplot(iris, aes(x=Sepal.Width)) +
-  geom_histogram()
+ggplot(iris, aes(x=Sepal.Length, fill=Species)) +
+  geom_histogram() + 
+  facet_wrap(~ Species)
 ```
 
 ## Plot the boxplots of Sepal.Length by Species
@@ -100,12 +101,15 @@ ggplot(iris, aes(x=Species, y=Sepal.Length)) +
 
 
 
+# Exercise 3 - P-003
 
+# Load Caret
 
-# Exercise 3
+```{r}
+library(caret)
+```
 
-
-Run following
+# Do 75% Train/Test split on iris dataset
 
 ```{r eval=FALSE}
 idx_train <- caret::createDataPartition(
@@ -113,10 +117,54 @@ idx_train <- caret::createDataPartition(
   p = .75,
   list = FALSE
 )
+
+data_all <- iris
+data_train <- iris[idx_train, ]
+data_test <- iris[-idx_train, ]
+```
+
+# Fit the random forest model with mtry=2
+
+```{r}
+model_rf <- caret::train(Species ~ . , 
+                         data=data_train, 
+                         method='rf', 
+                         trControl=trainControl(method="none"),
+                         tuneGrid=data.frame(mtry=1)
+                         )
+data_pred <- predict(model_rf, newdata=data_test[,1:4])
+caret::confusionMatrix(data_pred, data_test$Species)
+```
+
+# Do 5-fold cross-validation
+
+```{r}
+ctrl_rf <- caret::trainControl(method = 'cv', number = 5)
+model_rf <- caret::train(Species ~ . , 
+                         data=data_train, 
+                         trControl=ctrl_rf,
+                         tuneGrid=data.frame(mtry=c(1,2,3,4)),
+                         method='rf')
+caret::confusionMatrix(predict(model_rf, newdata=data_test[,1:4]), data_test$Species)
+ggplot(model_rf)
 ```
 
 
-* Q: What does the above command return?
+# Do the iris Species classification using 'k-nearest neighbor'
 
 
-Check the dimension of each of train, test data set
+```{r}
+ctrl_knn <- caret::trainControl(method = 'repeatedcv', number=5
+                                , repeats = 10)
+model_knn <- caret::train(Species ~ . ,
+                      data=data_train,
+                      trControl=ctrl_knn,
+                      method='knn')
+print(model_knn)
+```
+```{r}
+ggplot(model_knn)
+caret::confusionMatrix(predict(model_knn, newdata=data_test), data_test$Species)
+```
+
+## What is the best K?
