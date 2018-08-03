@@ -26,7 +26,7 @@ print(iris)
 __Answer__:
 <!-- write your answer below -->
 three species: Iris setosa, versicolor, and virginica
-
+length(unique(iris$Species))
 
 ## How many rows are there in iris dataset?
 
