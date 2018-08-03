@@ -27,6 +27,7 @@ library(tidyverse)
 library(useful)
 library(cluster)
 knitr::opts_chunk$set(echo = TRUE, fig.align="center") # center the figure
+
 ```
 
 R Markdown Notebook
@@ -206,7 +207,7 @@ Machine Learning
 ===================================
 type: section
 
-Supervised vs. Unsupervised Learning
+Machine Learning
 =======================================
 
 What is ML?
@@ -214,6 +215,9 @@ What is ML?
 > INPUT -> FUNCTION -> OUTPUT
 
 Basically, given `INPUT` and `OUTPUT`, What is FUNCTION?
+
+Two Types of ML: Supervised vs. Unsupervised Learning
+=======================================
 
 ```{r echo=FALSE, out.width = "1400px"}
 knitr::include_graphics("assets/Supervised-Unsupervised.jpg")
@@ -371,6 +375,7 @@ Model Building - Random Forest, problem
 
 Model Building - Cross Validation
 ===================
+incremental: false
 
 * Cross-validation is a procedure in which we use different subsets of the data to get multiple measures of model quality.
 * We use CV to tune hyperparameters such as `mtry`
@@ -436,6 +441,7 @@ caret::varImp(model_rf2)
 
 Variable Importance
 ====================
+incremental: false
 
 ```{r}
 ggplot(iris, aes(x=Petal.Width, fill=Species)) +
@@ -447,7 +453,7 @@ ggplot(iris, aes(x=Petal.Width, fill=Species)) +
 Excercise
 ==========================
 
-Do this
+Let's do the exercise together
 
 
 More sophisticated version
