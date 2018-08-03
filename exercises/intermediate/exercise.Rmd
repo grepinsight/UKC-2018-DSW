@@ -5,3 +5,127 @@ output:
     number_sections: yes
     toc: yes
 ---
+
+# Exercise 1 (P-001)
+
+## How do you access an iris dataset?
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+## How do can you get the meta information of this dataset? hint: use `?` command
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+### How many species are there and what are there?
+
+__Answer__:
+<!-- write your answer below -->
+
+
+## How many rows are there in iris dataset?
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+## How many columns are there?
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+## What is the command that you can use to perform both?
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+## What is the data type for each column?
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+## what happens when you run a summary command on it?
+
+```{r eval=FALSE}
+# Write R command(s) and run them to get the answer
+```
+
+
+# Exercise 2 - Exploratory Data Analysis, Visualization (P-002)
+
+## Import ggplot2
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+## What do you see when you run this?
+
+```{r eval=FALSE}
+# Write R command(s) and run them to get the answer
+```
+
+## Plot the histogram of Sepal.Length
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+* What is the overall shape?
+* How many peaks are there?
+
+
+## Plot the histogram of Sepal.Length facetted by Species. Also fill the color by Species
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+## Plot the boxplots of Sepal.Length by Species
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+
+
+# Exercise 3 - P-003
+
+# Load Caret
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+# Do 75% Train/Test split on iris dataset
+
+```{r eval=FALSE}
+# Write R command(s) and run them to get the answer
+```
+
+# Fit the random forest model with mtry=2
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+# Do 5-fold cross-validation
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+
+# Do the iris Species classification using 'k-nearest neighbor'
+
+
+```{r}
+# Write R command(s) and run them to get the answer
+```
+
+## What is the best K?
