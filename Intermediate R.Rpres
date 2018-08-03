@@ -45,7 +45,7 @@ R-markdown Notebook
 	* compile into other formats such as `html` or `pdf`
 * We will do all the exercises in R markdown notebook
 
-> Open ./exercises/intermediate/exercise.Rmd
+> download.file("https://grepinsight.github.io/UKC-2018-DSW/", "exercise.Rmd")
 
 
 Iris Dataset
