@@ -1,0 +1,36 @@
+---
+title: "Exercise 1"
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+---
+
+# Use the `?` help operator to understand what the sample function does.
+
+```{r}
+# Write your answer here
+```
+
+# Create a vector `coeffs` of 3 coefficients for a quadratic equation, using the `sample` function. Draw a sample of size 3 from [-10,10] with replacement.
+
+```{r}
+# Write your answer here
+```
+
+# Determine the class of the vector `coeffs`.
+
+```{r}
+# Write your answer here
+```
+
+# Assign the 3 values from the vector `coeffs` to variables `a`, `b`, and `c`, respectively.
+
+```{r}
+# Write your answer here
+```
+
+# Evaluate the discriminant of the quadratic equation, which is calculated as (b^2 - 4ac).
+```{r}
+# Write your answer here
+```
