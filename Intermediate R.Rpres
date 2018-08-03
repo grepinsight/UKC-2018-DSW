@@ -125,6 +125,7 @@ variables.
 
 ggplot2 - (2) Layers
 ===========================
+incremental: false
 class: small-code
 
 ```{r }
@@ -135,6 +136,7 @@ ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) +
 
 ggplot2 - (2) Layers
 ===========================
+incremental: false
 class: small-code
 ```{r}
 ggplot(iris) +
@@ -144,6 +146,7 @@ ggplot(iris) +
 
 ggplot2 - (3)  Labels
 ===========================
+incremental: false
 class: small-code
 
 ```{r}
@@ -156,6 +159,7 @@ gg
 ggplot2 - (4) The Facets
 ===========================
 class: small-code
+incremental: false
 
 There is a technique called `faceting` to display additional categorical variables:
 
@@ -169,6 +173,7 @@ Note that the name of variable is preceded by `~`.
 Numerous Possibilites in ggplot2...
 ===================================
 class: small-code
+incremental: false
 
 ```{r}
 ggplot(mtcars, aes(x=cyl)) + geom_bar(fill='darkgoldenrod2') +
@@ -179,6 +184,7 @@ ggplot(mtcars, aes(x=cyl)) + geom_bar(fill='darkgoldenrod2') +
 
 ggplot2 Documentation
 ===================================
+incremental: false
 
 [Link](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
 
@@ -193,7 +199,7 @@ grid.raster(img)
 Visualization Exercise
 ===================================
 
-* Go to the section `Exercise 2(P-002)` on the notebook and do the problems
+* Go to the section `Exercise 2(P-002)` on the notebook and let's do the problems together
 
 
 Machine Learning
@@ -202,6 +208,13 @@ type: section
 
 Supervised vs. Unsupervised Learning
 =======================================
+
+What is ML?
+
+> INPUT -> FUNCTION -> OUTPUT
+
+Basically, given `INPUT` and `OUTPUT`, What is FUNCTION?
+
 ```{r echo=FALSE, out.width = "1400px"}
 knitr::include_graphics("assets/Supervised-Unsupervised.jpg")
 ```
