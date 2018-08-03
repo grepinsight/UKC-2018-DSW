@@ -3,6 +3,8 @@ Intermediate R
 author: Albert Lee, Stephen Park
 date: August 3-4, 2018
 autosize: true
+transition: none
+incremental: true
 
 
 <style>
@@ -13,8 +15,9 @@ autosize: true
 
 Agenda
 ========================================================
+0. Rmarkdown introduction
 1. Problem Statement
-2. Visualization
+2. Exploratory Analysis
 3. Machine Learning with Caret
 4. K-means Clustering in R
 
@@ -24,93 +27,132 @@ library(tidyverse)
 library(useful)
 library(cluster)
 knitr::opts_chunk$set(echo = TRUE, fig.align="center") # center the figure
+
 ```
+
+R Markdown Notebook
+===================================
+type: section
+
+
+R-markdown Notebook
+========================================================
+
+* R markdown notebook is a literate programming environment for R.
+* It's nice because you can
+	* keep all your outputs in one place
+	* make your analysis reproducible
+	* compile into other formats such as `html` or `pdf`
+* We will do all the exercises in R markdown notebook
+
+> Open ./exercises/intermediate/exercise.Rmd
+
+
+Iris Dataset
+===================================
+type: section
+
 
 Motivation
 ========================================================
 
-Here is the famous `iris` dataset.
+* `iris` is a famous dataset put together by the father of statistics, RA Fisher.
+* We will use this dataset to practice data analysis
+* Go to Exercise 1 P-001
 
 ![](assets/iris-machinelearning.png)
 
+<small>
 source: Fisher,R.A. "The use of multiple measurements in taxonomic problems" (see [here](http://archive.ics.uci.edu/ml/datasets/Iris) for more info)
+</small>
 
-Exercise 1
-==============
+Visualization
+===================================
+type: section
 
-Open ./exercises/intermediate/exercise1.Rmd and let's expore iris dataset togeother.
 
 Visualization with ggplot2
 ===========================
 
-- Works with dataframes and not individual vectors
+- Good exploratory analysis lends itself to visualization
+- `ggplot2` is THE package for the job
+- with `ggplot`, you can make complex plots with just a few lines of code
+- based on the theory __g__rammar of __g__raphics, hence the short name `gg`plot.
 
-- Consistent underlying `grammar of graphics`
+Visualization with ggplot2
+===========================
 
-- Can continuously add layers (and themes) to an existing plot
+Every ggplot has three parts
+
+1. __data__ (usually in the form of `data.frame`)
+2. __aesthetic mapping__ between variables in the data and the visual properties
+	* examples include `x`, `y`, `color`, `share`, `group`, `size`, etc.
+3. __layer__ rendered by one of geom_* functions
+
 
 ggplot2 - (1) The Basics
 ===========================
 
-* Try running this 
-
-```{r}
-ggplot(data=iris) 
-```
-
-Q: Why is nothing shown?
+![](assets/ggplot_slide1.png)
 
 ggplot2 - (1) The Basics
 ===========================
 
-```{r}
-ggplot(data=iris, mapping=aes(x=Sepal.Width))  
-```
+![](assets/ggplot_slide2.png)
 
-* if only X-axis is known. The Y-axis can be specified as well.
-
-ggplot2 - (1) Basics
+ggplot2 - (1) The Basics
 ===========================
 
-```{r}
-ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length))
-```
+![](assets/ggplot_slide3.png)
 
-* if both X and Y axes are fixed for all layers.
-
-ggplot2 - (1) Basics
+ggplot2 - (1) The Basics
 ===========================
-```{r}
-ggplot(data=iris, aes(x=Sepal.Width, color=Species))  
-# Each category of the 'Species' variable will now have a distinct  color, once a geom is added.
-```
+
+![](assets/ggplot_slide4.png)
+
+
+Examples of Geoms
+===========================
+
+* __geom_point()__ produces a scatterplot.
+* __geom_smooth()__ fits a smoother to the data and displays the smooth and its
+standard error.
+* __geom boxplot()__ produces a box-and-whisker plot to summarise the distribution
+of a set of points.
+* __geom histogram()__ and geom freqpoly() show the distribution of continuous
+variables.
+• __geom_col()__ shows the distribution of categorical variables.
+• __geom_line()__ draw lines between the data points.
 
 ggplot2 - (2) Layers
 ===========================
+incremental: false
 class: small-code
 
 ```{r }
-ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) + 
-  geom_point() + 
+ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) +
+  geom_point() +
   geom_smooth() # Adding scatterplot geom (layer1) and smoothing geom (layer2).
 ```
 
 ggplot2 - (2) Layers
 ===========================
+incremental: false
 class: small-code
 ```{r}
-ggplot(iris) + 
-  geom_point(aes(x=Sepal.Width, y=Sepal.Length, shape=Species)) + 
+ggplot(iris) +
+  geom_point(aes(x=Sepal.Width, y=Sepal.Length, shape=Species)) +
   geom_smooth(aes(x=Sepal.Width, y=Sepal.Length, color=Species)) # Same as above but specifying the aesthetics inside the geoms.
 ```
 
 ggplot2 - (3)  Labels
 ===========================
+incremental: false
 class: small-code
 
 ```{r}
-gg <- ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) + 
-  geom_point() + 
+gg <- ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species)) +
+  geom_point() +
   labs(title="Scatterplot", x="Sepal Width", y="Sepal Length")  # add axis lables and plot title.
 gg
 ```
@@ -118,25 +160,32 @@ gg
 ggplot2 - (4) The Facets
 ===========================
 class: small-code
+incremental: false
+
+There is a technique called `faceting` to display additional categorical variables:
 
 ```{r}
-gg + 
+gg +
   facet_wrap( ~ Species, ncol=3)  # columns defined by 'Species'
 ```
+
+Note that the name of variable is preceded by `~`.
 
 Numerous Possibilites in ggplot2...
 ===================================
 class: small-code
+incremental: false
 
 ```{r}
 ggplot(mtcars, aes(x=cyl)) + geom_bar(fill='darkgoldenrod2') +
-  theme(panel.background = element_rect(fill = 'steelblue')) + 
-  theme(panel.grid.major = element_line(colour = "firebrick", size=3)) + 
+  theme(panel.background = element_rect(fill = 'steelblue')) +
+  theme(panel.grid.major = element_line(colour = "firebrick", size=3)) +
   theme(panel.grid.minor = element_line(colour = "blue", size=1))
 ```
 
 ggplot2 Documentation
 ===================================
+incremental: false
 
 [Link](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
 
@@ -148,7 +197,33 @@ grid.raster(img)
 
 ```
 
-Here's an interesting machine learning problem
+Visualization Exercise
+===================================
+
+* Go to the section `Exercise 2(P-002)` on the notebook and let's do the problems together
+
+
+Machine Learning
+===================================
+type: section
+
+Machine Learning
+=======================================
+
+What is ML?
+
+> INPUT -> FUNCTION -> OUTPUT
+
+Basically, given `INPUT` and `OUTPUT`, What is FUNCTION?
+
+Two Types of ML: Supervised vs. Unsupervised Learning
+=======================================
+
+```{r echo=FALSE, out.width = "1400px"}
+knitr::include_graphics("assets/Supervised-Unsupervised.jpg")
+```
+
+Classification Problem
 ==============================================
 class:small-code
 
@@ -172,11 +247,6 @@ Machine Learning Workflow
 
 1. Why do we split a data into train/test datasets?
 
-Supervised vs. Unsupervised Learning
-=======================================
-```{r echo=FALSE, out.width = "1400px"}
-knitr::include_graphics("assets/Supervised-Unsupervised.jpg")
-```
 
 What is caret?
 ==============
@@ -249,61 +319,103 @@ dim(data_training)
 dim(data_test)
 ```
 
-Model Building
-===================
+Model Building - Choosing a model
+=================================
+incremental: false
 
-1. will build a train control
+* There are many off-the-shelf classification models
+	1. random forest
+	2. K-nearest neighbor
+	3. logistic regression
+	4. and more
 
 
-```{r}
-# build train control
-ctrl <- caret::trainControl(
-  method = "cv",
-  number = 10,
-  classProbs = TRUE,
-  summaryFunction = caret::mnLogLoss
-)
-```
+Model Building - Choosing a model
+=================================
+incremental: false
 
-1. type `ctrl` on your console. What is the data structure?
+
+* Each model has one or more tuning parameters!
+
+
+|label                     |model   |params                                                                        |
+|:-------------------------|:-------|:-----------------------------------------------------------------------------|
+|Random Forest             |rf      |mtry                                                                          |
+|k-Nearest Neighbors       |knn     |k                                                                             |
+|glmnet                    |glmnet  |alpha, lambda                                                                 |
+|eXtreme Gradient Boosting |xgbTree |nrounds, max_depth, eta, gamma, colsample_bytree, min_child_weight, subsample |
+
+* We will use random forest for this session
+
+Model Building - Random Forest, quickstart
+=================================
+class: small-code
 
 ```{r eval=FALSE}
-ctrl
-str(ctrl)
-class(ctrl)
+# train model
+model_rf <- caret::train(Species ~ . ,
+                         data=data_training,
+                         method='rf',
+                         trControl=trainControl(method="none"),
+                         tuneGrid=data.frame(mtry=2)
+                         )
+# predict
+data_pred <- predict(model_rf, newdata=data_test)
+
+# performance check
+caret::confusionMatrix(data_pred, data_test$Species)
 ```
 
-Model Building
+Model Building - Random Forest, problem
+=================================
+
+* For `rf`, `mtry` is number of variables randomly sampled as candidates at each split
+* previously, we just choose an arbitrary one, namely 2.
+* But this approach is problematic because we might not have chosen the best `mtry`.
+
+Model Building - Cross Validation
+===================
+incremental: false
+
+* Cross-validation is a procedure in which we use different subsets of the data to get multiple measures of model quality.
+* We use CV to tune hyperparameters such as `mtry`
+* `caret`'s got a function for that!
+
+![](assets/cross_validation.png)
+
+Model Building - Cross Validation in caret
 ===================
 
+
 ```{r}
-model <- caret::train(
+ctrl <- caret::trainControl(
+  method = "cv",
+  number = 5,
+)
+
+model_rf2 <- caret::train(
   x = data_training[,1:4],
   y = data_training$Species,
   trControl = ctrl,
+  tuneGrid=data.frame(mtry=c(1,2,3,4)),
   method = "rf",
-  verbose=TRUE
 )
 ```
 
 
-1. what is `rf`?
-2. what is `preProc`?
-3. what is `metric`?
-
 Model Building
 ===================
+incremental: false
 
 ```{r}
-ggplot(model)
+ggplot(model_rf2)
 ```
 
 
 Prediction
 ==========
 ```{r}
-data_pred_class <- predict(model, newdata=data_test, type="raw")
-data_pred_prob <- predict(model, newdata=data_test, type="prob")
+data_pred_class <- predict(model_rf2, newdata=data_test)
 ```
 
 Prediction
@@ -320,8 +432,8 @@ confusionMatrix(data = data_pred_class, data_test$Species)
 Variable Importance
 ====================
 
-```{r eval=FALSE}
-caret::varImp(model)
+```{r eval=TRUE}
+caret::varImp(model_rf2)
 ```
 
 1. What variables are important?
@@ -329,12 +441,19 @@ caret::varImp(model)
 
 Variable Importance
 ====================
+incremental: false
 
 ```{r}
-ggplot(iris, aes(x=Petal.Width, fill=Species)) + 
-  geom_density() + 
-  theme_bw()
+ggplot(iris, aes(x=Petal.Width, fill=Species)) +
+  geom_density() +
+  theme_bw() +
+  labs(title="Petal Width Distribution by Species")
 ```
+
+Excercise
+==========================
+
+Let's do the exercise together
 
 
 More sophisticated version
@@ -359,22 +478,25 @@ Tips
 
 ```{r}
 info_caret_models  <- caret::getModelInfo()
-names(info_caret_models)
-info_caret_models$rf$parameters
+head(names(info_caret_models))
 ```
 
 
-Regression
+You can do Regression with caret as well
 ===========
-```{r}
+```{r }
 ctrl <- caret::trainControl(method="cv", number = 10)
-model_linear <- caret::train(x = data_training[,1:3], 
-             y = data_training$Petal.Width, 
-             method = "lm", 
+model_linear <- caret::train(x = data_training[,1:3],
+             y = data_training$Petal.Width,
+             method = "lm",
              trControl = ctrl,
              metric="RMSE")
 caret::RMSE(predict(model_linear, newdata=data_test), data_test$Petal.Width)
 ```
+
+Unsupervised Machine Learning: Clustering
+===================================
+type: section
 
 Unsupervised Machine Learning: Clustering
 =========================================
@@ -448,3 +570,4 @@ Futher studies
 
 1. [Caret Documentation](https://topepo.github.io/caret/index.html)
 2. [R for Data Science](http://r4ds.had.co.nz/)
+3. ggplot2 - Elegant Graphics for Data Analysis by Hadley Wickham

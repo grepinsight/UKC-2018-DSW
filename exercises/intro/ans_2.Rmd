@@ -8,15 +8,20 @@ output:
 # What are the minimum and maximum concentrations at which the plants were tested in the `CO2` data set?
 ```{r}
 # Write your answer here
+min(CO2$conc)
+max(CO2$conc)
 ```
 
 # Let's add a new variable to the `CO2` dataframe named `conc_L`, which is the concentration in L/L (i.e., `conc_L` = `conc`/1000). Confirm that a new variable was added to the dataset by using the `names()` function.
 ```{r}
 # Write your answer here
+CO2$conc_L <- CO2$conc/1000
+names(CO2)
 ```
 
 # Make a scatterplot of the uptake versus concentration from the `CO2` data set. Use a `col=CO2$Type` argument to differentiate the data by region. 
 
 ```{r}
 # Write your answer here
+plot(CO2$uptake, CO2$conc, col=CO2$Type)
 ```
