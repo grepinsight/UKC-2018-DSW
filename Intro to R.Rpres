@@ -1,8 +1,8 @@
 Intro to R
 ========================================================
-author: Jeho Park
-date: 
-autosize: true
+author: Jeho Park, Stephen Park  
+date: August 4, 2018  
+autosize: true  
 
 Agenda
 ========================================================
@@ -13,21 +13,99 @@ Agenda
 - Hands-On Project
 - Further Learning
 
-About R
+This R Workshop is...
+========================================================
+* for newbies.
+  - If you already have some experience in R, please raise your hands.
+* about R's programming aspects.
+  - It's designed to help you start using and coding R.
+* not about Statistics.
+  - I assume that you already have some basic knowledge of Statistics
+* for you to start learning R afterwards.
+  - This workshop is designed to give you a nudge to learn more R down the road. There are many resources to learn R in depth. 
+  
+Learning Objectives:
+========================================================
+_By the end of this this workshop, you will be able to:_
+* Install R libraries/packages.
+* Import and export data from/to a simple CSV file in R.
+* Distinguish the differences between R data objects and convert them.
+* Use subsetting methods to create subsamples.
+* Create basic plots using both base plot in R.
+* Create R markdown documents and R slides.
+* Create tidy data and manipulate those data using dplyr package.
+
+
+What is R?
+========================================================
+* R is a statical programming language/environment.
+* R is open source and free.
+* R is widely used.
+* R is cross-platform.
+* R is hard to learn (really?).
+
+What is not R?
+========================================================
+* S: R's ancestor
+* S-Plus: Commercial; modern implementation of S
+* SAS: Commercial; widely used in the commercial analytics.
+* STATA: Commercial; widely used by economists.
+* SPSS: Commercial; easy to use; widely used in Social Science.
+* MATLAB: Commercial; can do some Stats. 
+* Python: Also can do some Stats; one of the two mostly used programming languages in data science.
+
+Then Why R?
+========================================================
+* __R community is active and constantly growing__
+* R is one of the most popular stat programming lang
+* R has tons of user generated libraries/packages
+* R code is easily shared with others
+* R is constantly improved
+
+
+Then Why R?
+========================================================
+* R community is active and constantly growing
+* __R is one of the most popular stat tools/programming languages__
+* R has tons of user generated libraries/packages
+* R code is easily shared with others
+* R is constantly improved
+
+###### Further reading about R's popularity in science and engineering:<br>
+###### R moves up to 5th place in IEEE language rankings at  https://www.r-bloggers.com/r-moves-up-to-5th-place-in-ieee-language-rankings/
+###### https://spectrum.ieee.org/static/interactive-the-top-programming-languages-2017 (6th in 2017)
+
+
+Then Why R?
 ========================================================
 
-- R is a language and environment for statistical computing and graphics.
-- R is used in education, finance, software, medicine and more.
-- The biggest draw of using R is the large amount of functionality through packages and its graphing capabilities. However, R can have shortcomings in its speed and the learning curve for non-programmers. 
+IEEE Spectrum: Popular Programming Languages in 2017
+![Poplar Programming Languages](The_Top_Programming_Languages_2017_-_IEEE_Spectrum.png)
 
-About R - Sponsors/Users
+Then Why R?
 ========================================================
-<center>
-![Sponsors of R](rsponsors.png)
-</center>
+
+* R community is active and constantly growing
+* R is one of the most popular stat tools/programming languages
+* __R has tons of user generated libraries/packages__
+* R code is easily shared with others
+* R is constantly improved
+
+Getting help online and offline
+===============================
+### On the Internet:
+* Google! (Now Google knows "r" means the R programming language)
+* Stack Overflow: http://stackoverflow.com/questions/tagged/r
+* Cross-Validated: the statistics Q&A site http://stats.stackexchange.com/
+* Rseek meta search engine: http://rseek.org/ 
+* R-help listserv: https://www.r-project.org/mail.html
 
 R Basics
 ========================================================
+Let's get ready for R-ing!
+
+Open your RStudio app.
+Open your browser.
 
 Getting Started - RConsole
 ========================================================
@@ -41,7 +119,7 @@ Getting Started - RConsole
 2+2
 ```
 
-Getting Started - Variables
+Getting Started - Variables 
 ========================================================
 - You can also use variables and assign them values.
 ```{r}
@@ -50,7 +128,7 @@ x+2
 ```
 ```{r}
 # The "<-" operator is the same as "="
-y <- x+1
+y <- x+1 # "<-" is preferred
 x+y
 ```
 
@@ -65,7 +143,7 @@ R Basics - Arithmetic Operators
 - Arithmetic operators are our common mathematical symbols.
 ```{r echo='false'}
 x*x # Multiplication
-x/x # Division
+x/y # Division
 x^3 # Exponentiation
 ```
 
@@ -97,12 +175,26 @@ R Basics - Vectors
 - In R, there are also vectors which are sequences of values.
 ```{r}
 a <- c(1,2,3)
-b <- c(3,2,1)
-a+b # Most operations on a vector will be element-wise
+b <- c(3:1)
+
+for(i in 1:3) {
+  print(a[i]+b[i])
+}
 ```
+R Basics - Vectors - 2
+========================================================
+- R's basic data object is "vector"
+- Operators are optimized for vector  (element-wise) operations
+- Use vectorized operations than loops whenever possible
+```{r}
+a + b
+a^2
+```
+
 R Basics - Built-In Functions
 ========================================================
-- Functions take an input and produce an output. R contains many functions that are built-in, some of which we have already seen [class(), c()]
+- Functions take an input and produce an output. 
+- R contains many functions that are built-in, some of which we have already seen such as class() and c().
 ```{r}
 abs(-5) # Absolute Value
 sqrt(4) # Square Root
@@ -116,15 +208,16 @@ toupper("hello") # To Upper Case
 R Basics - Built-In Functions - 3
 ========================================================
 ```{r}
-sd(a) # Standard Deviation
-cor(a,b) # Correlation
+sd(a) # Can you guess what this funtion calc?
+cor(a,b) # How about this?
 ```
+
 
 R Basics - Libraries and Packages
 ========================================================
 - R is known for its community and its libraries/packages
 - Packages are collections of R functions, data, and compiled code in a well-defined format. The directory where packages are stored is called the library.
-- We will install the dplyr package, a popular package for data manipulation
+- We will install the dplyr package, a popular package for data manipulation.
 - ```
 install.packages('dplyr')
 ```
@@ -149,7 +242,7 @@ Exercise 1
 ==============
 
 - Review of some basic R features
-- Open ./exercises/intro/exercise_1.Rmd
+- Open ./exercises/intro/exercise_1.Rmd (this is a R markdown file)
 
 
 Working with Data
@@ -167,7 +260,7 @@ data.frame(names, ages, male)
 Working with Data - DataFrames - Datasets
 ========================================================
 - R's datasets package has some built in datasets that we will be using.
-    - The CO2 data frame has 84 rows and 5 columns of data from an experiment on the cold tolerance of the grass species Echinochloa crus-galli.
+- The CO2 data frame has 84 rows and 5 columns of data from an experiment on the cold tolerance of the grass species Echinochloa crus-galli.
 ```{r}
 help(CO2)
 ```
@@ -188,20 +281,17 @@ summary(CO2)
 
 Working with Data - Data Visualization
 ========================================================
-```{r}
+```{r, eval=FALSE}
 hist(CO2$uptake) # Use help function for more plotting options
-boxplot(CO2$conc)
-plot(CO2$uptake, CO2$conc)
 ```
 Working with Data - Data Visualization - Boxplot
 ========================================================
-```{r}
+```{r, eval=FALSE}
 boxplot(CO2$conc)
-plot(CO2$uptake, CO2$conc)
 ```
 Working with Data - Data Visualization - Scatterplot
 ========================================================
-```{r}
+```{r, eval=FALSE}
 plot(CO2$uptake, CO2$conc)
 ```
 Exercise 2
@@ -210,20 +300,54 @@ Exercise 2
 - Review of datasets and data visualization
 - Open ./exercises/intro/exercise_2.Rmd
 
-Working with Data - Data Manipulation
+Working with Data - Data Subsseting (classic) - 1
+=========================
+Operators that can be used to extract subsets of R objects.
+* '[' and ']' always returns an object of the same class as the original; can be used to select more than one element.
+* '[[' and ']]' is used to extract elements of a list or a data frame; it can only be used to extract a single element.
+* $ is used to extract elements of a list or data frame by name.
+
+Working with Data - Data Subsetting (classic) - 2
+==========================
+```{r, eval=FALSE}
+x <- c("a", "b", "c", "c", "d", "a")
+x[1]
+x[1:4]
+x[x > "a"] 
+u <- x > "a" # what's u here?
+u
+x[u] # subsetting using a boolean vector
+y <- list(foo=x, bar=x[u]) 
+y
+y[[1]]
+y$bar
+```
+
+Working with Data - Data subsetting (classic) - 3
+========================================================
+- Create a dataframe containing the first 10 observations. 
+- Create a dataframe where only the Plant identifier is Qn3.
+- Create a dataframe only containing observations with the CO2 concentration level greater than 600.
+```{r, eval=FALSE}
+co2_10obs <- CO2[<row>, <col>]
+co2_Qn3 <- CO2[?, ?]
+co2_gt600conc <- subset(CO2, conc > 600)
+```
+
+Working with Data - Data Manipulation (dplyr)
 ========================================================
 - Dplyr is the most common package used for data exploration and transformation
 - Dplyr functions: filter, select, arrange, mutate, summarise (plus group_by)
 ```{r}
 head(filter(CO2, Treatment=='nonchilled'))
 ```
-Working with Data - Data Manipulation - Select
+Working with Data - Data Manipulation (dplyr) - Select
 ========================================================
 - ```select``` will output only the columns that you choose
 ```{r}
 head(select(CO2, Plant, conc, uptake), 3)
 ```
-Working with Data - Data Manipulation - Chaining
+Working with Data - Data Manipulation (dplyr) - Chaining
 ========================================================
 - You can chain/pipe dplyr functions together
     - The infix (or pipe) operator '%>%' will feed the resulting object into the 1st paramater of the next function
@@ -233,7 +357,7 @@ y <- CO2 %>% filter(Treatment=='nonchilled') %>% select(Plant, conc, uptake)
 x == y
 ```
 
-Working with Data - Data Manipulation - Arrange
+Working with Data - Data Manipulation (dplyr) - Arrange
 ========================================================
 - ```arrange()``` sorts rows by a column
 ```{r}
@@ -241,7 +365,7 @@ Working with Data - Data Manipulation - Arrange
 CO2 %>% arrange(desc(uptake)) %>% head(3)
 ```
 
-Working with Data - Data Manipulation - Mutate
+Working with Data - Data Manipulation (dplyr) - Mutate
 ========================================================
 - ```mutate()``` creates new variables
 ```{r}
@@ -255,7 +379,7 @@ Working with Data - Data Manipulation - Summarise
 CO2 %>% group_by(Type) %>% summarise(avg_uptake = mean(uptake))
 ```
 
-Working with Data - Data Manipulation - Tips
+Working with Data - Data Manipulation (dplyr) - Tips
 ========================================================
 - In datasets with a lot of columns you can select all columns but selected ones by using the '-' operator ```select(CO2, -Plant)```
 - When aggregating data you need an aggregate function such as mean, median, n (number of rows in a group), sum, etc.
@@ -267,6 +391,10 @@ Exercise 3
 
 - Review of some data manipulation functions in dplyr 
 - Open ./exercises/intro/exercise_3.Rmd
+
+Tydyverse
+===================
+
 
 
 Further Learning - Beginner/Intermediate

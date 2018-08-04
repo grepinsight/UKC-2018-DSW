@@ -51,10 +51,9 @@ R-markdown Notebook
 Setup
 ===================================
 ```{r eval=FALSE}
-# Download 
+# Download
 download.file("https://tinyurl.com/ukc-r-exercise", "exercise.Rmd")
 ```
-
 
 Iris Dataset
 ===================================
