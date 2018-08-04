@@ -30,6 +30,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.align="center") # center the figure
 
 ```
 
+
 R Markdown Notebook
 ===================================
 type: section
@@ -46,6 +47,13 @@ R-markdown Notebook
 * We will do all the exercises in R markdown notebook
 
 > Open ./exercises/intermediate/exercise.Rmd
+
+Setup
+===================================
+```{r eval=FALSE}
+# Download 
+download.file("https://tinyurl.com/ukc-r-exercise", "exercise.Rmd")
+```
 
 
 Iris Dataset
@@ -571,3 +579,10 @@ Futher studies
 1. [Caret Documentation](https://topepo.github.io/caret/index.html)
 2. [R for Data Science](http://r4ds.had.co.nz/)
 3. ggplot2 - Elegant Graphics for Data Analysis by Hadley Wickham
+
+
+Slides
+===================================
+* Slide link: <https://grepinsight.github.io/UKC-2018-DSW>
+* Github repo: <https://bit.ly/ukc2018-dsw-r>
+

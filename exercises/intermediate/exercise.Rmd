@@ -12,47 +12,73 @@ output:
 
 ```{r}
 # Write R command(s) and run them to get the answer
+iris
+
+# ctrl + enter
 ```
+
+```{r}
+View(iris)
+```
+
 ## How do can you get the meta information of this dataset? hint: use `?` command
 
 ```{r}
 # Write R command(s) and run them to get the answer
+?iris
 ```
 
 ### How many species are there and what are there?
 
 __Answer__:
 <!-- write your answer below -->
+3
 
-
+```{r}
+length(unique(iris$Species))
+```
+```{r}
+unique_species <- unique(iris$Species)
+length(unique_species)
+```
 ## How many rows are there in iris dataset?
 
 ```{r}
 # Write R command(s) and run them to get the answer
+nrow(iris)
 ```
 
 ## How many columns are there?
 
 ```{r}
 # Write R command(s) and run them to get the answer
+ncol(iris)
 ```
 
 ## What is the command that you can use to perform both?
 
 ```{r}
 # Write R command(s) and run them to get the answer
+dim(iris)
+```
+
+```{r}
+?dim
 ```
 
 ## What is the data type for each column?
 
 ```{r}
-# Write R command(s) and run them to get the answer
-```
+# use ctrl + shift + enter to run all commands
+class(iris)
+class(iris$Sepal.Length)
+str(iris) 
+````
 
 ## what happens when you run a summary command on it?
 
 ```{r eval=FALSE}
-# Write R command(s) and run them to get the answer
+summary(iris)
 ```
 
 
@@ -61,19 +87,41 @@ __Answer__:
 ## Import ggplot2
 
 ```{r}
+library(ggplot2)
 # Write R command(s) and run them to get the answer
 ```
 
 ## What do you see when you run this?
 
 ```{r eval=FALSE}
+ggplot(data=iris, mapping=aes(x=Sepal.Length, y=Sepal.Width))
 # Write R command(s) and run them to get the answer
+```
+
+```{r}
+ggplot(data=iris, mapping=aes(x=Sepal.Length, y=Sepal.Width)) + 
+  geom_point()
+```
+```{r}
+ggplot(data=iris) + 
+  geom_point(aes(x=Sepal.Length, y=Sepal.Width))
+```
+
+```{r}
+p <- ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length, color=Species))
+p +  geom_point()
+p + geom_smooth()
+```
+```{r}
+p + geom_smooth(aes(group=1))
 ```
 
 ## Plot the histogram of Sepal.Length
 
 ```{r}
 # Write R command(s) and run them to get the answer
+p2 <- ggplot(iris, aes(x=Sepal.Width))
+p2 + geom_histogram(aes(fill=Species))
 ```
 
 * What is the overall shape?
@@ -83,13 +131,25 @@ __Answer__:
 ## Plot the histogram of Sepal.Length facetted by Species. Also fill the color by Species
 
 ```{r}
-# Write R command(s) and run them to get the answer
+ggplot(iris, aes(x=Sepal.Length, fill=Species)) + 
+  geom_histogram() +
+  facet_wrap(~Species)
 ```
 
 ## Plot the boxplots of Sepal.Length by Species
 
 ```{r}
-# Write R command(s) and run them to get the answer
+p <- ggplot(iris, aes(x=Species, y=Sepal.Length, fill=Species)) + 
+  geom_boxplot() 
+p + 
+  labs(title="Sepal Length for each Iris Species", 
+       subtitle="Virginica seems to be the longest in sepal length") + 
+  theme_bw() + 
+  theme(plot.title=element_text(size=30)) + 
+  theme(axis.title.x=element_text(size=20)) + 
+  theme(axis.text.x=element_text(size=15)) + 
+  theme(axis.title.y=element_text(size=20)) +
+  theme(legend.position="")
 ```
 
 
@@ -99,25 +159,68 @@ __Answer__:
 # Load Caret
 
 ```{r}
+library(caret)
 # Write R command(s) and run them to get the answer
 ```
 
 # Do 75% Train/Test split on iris dataset
 
 ```{r eval=FALSE}
-# Write R command(s) and run them to get the answer
+set.seed(123)
+idx_train <- caret::createDataPartition(
+  y = iris$Species,
+  p = .75,
+  list = FALSE
+)
+
+data_train <- iris[idx_train, ]
+data_test <- iris[-idx_train, ]
+
+dim(data_train)
+dim(data_test)
 ```
 
 # Fit the random forest model with mtry=2
 
 ```{r}
-# Write R command(s) and run them to get the answer
+model_rf <- caret::train(x=data_train[,1:4],
+                         y=data_train$Species,
+                         method='rf',
+                         tuneGrid=data.frame(mtry=2),
+                         trControl=trainControl(method="none")
+                         )
+model_rf
+```
+
+
+```{r}
+data_pred <- predict(model_rf, newdata=data_test[, 1:4])
+data_pred
+```
+
+```{r}
+length(data_pred)
+```
+
+```{r}
+caret::confusionMatrix(data_pred, data_test$Species)
 ```
 
 # Do 5-fold cross-validation
 
 ```{r}
-# Write R command(s) and run them to get the answer
+ctrl <- caret::trainControl(
+  method = "cv",
+  number = 5,
+)
+
+model_rf2 <- caret::train(
+  x = data_train[,1:4],
+  y = data_train$Species,
+  trControl = ctrl,
+  tuneGrid=data.frame(mtry=c(1,2,3,4)),
+  method = "rf",
+)
 ```
 
 
