@@ -219,10 +219,18 @@ model_rf2 <- caret::train(
   y = data_train$Species,
   trControl = ctrl,
   tuneGrid=data.frame(mtry=c(1,2,3,4)),
-  method = "rf",
+  method = "rf"
 )
+model_rf2
+```
+```{r}
+data_pred2 <- predict(model_rf2, newdata=data_test)
+caret::confusionMatrix(data_pred2, data_test$Species)
 ```
 
+```{r}
+caret::varImp(model_rf2)
+```
 
 # Do the iris Species classification using 'k-nearest neighbor'
 
